@@ -151,21 +151,21 @@
             });
 
         }
-        function viewUser(id) {
-            $.ajax({
-                type: 'get',
-                url:"{{url('/admin/user/view')}}"+"/"+id,
-                dataType: 'html',
-                success:function (data) {
-                    $('#viewUser').html(data);
-                },
-                error:function (error) {
-                    console.log(error);
-                }
+        {{--function viewUser(id) {--}}
+            {{--$.ajax({--}}
+                {{--type: 'get',--}}
+                {{--url:"{{url('/admin/user/view')}}"+"/"+id,--}}
+                {{--dataType: 'html',--}}
+                {{--success:function (data) {--}}
+                    {{--$('#viewUser').html(data);--}}
+                {{--},--}}
+                {{--error:function (error) {--}}
+                    {{--console.log(error);--}}
+                {{--}--}}
 
-            });
+            {{--});--}}
 
-        }
+        {{--}--}}
 
         function deleteProductlist(id) {
             swal({
@@ -197,20 +197,20 @@
             });
         }
 
-        function resetPassword(id) {
-            $.ajax({
-                type: 'get',
-                url:"{{url('/admin/reset/password')}}"+"/"+id,
-                dataType: 'html',
-                success:function (data) {
-                    $('#resetPassword').html(data);
-                },
-                error:function (error) {
-                    console.log(error);
-                }
+        {{--function resetPassword(id) {--}}
+            {{--$.ajax({--}}
+                {{--type: 'get',--}}
+                {{--url:"{{url('/admin/reset/password')}}"+"/"+id,--}}
+                {{--dataType: 'html',--}}
+                {{--success:function (data) {--}}
+                    {{--$('#resetPassword').html(data);--}}
+                {{--},--}}
+                {{--error:function (error) {--}}
+                    {{--console.log(error);--}}
+                {{--}--}}
 
-            });
-        }
+            {{--});--}}
+        {{--}--}}
 
     </script>
 

@@ -1,9 +1,8 @@
 
 <div class="modal-dialog">
-{!! Form::model($productlist,['action'=>['ProductlistController@updateProlist',$productlist->id],'method'=>'PATCH','files'=>true]) !!}
-
 <!-- Modal content-->
-    <div class="modal-content">
+    <div class="modal-content" style="border-radius: 5px;">
+        {!! Form::model($productlist,['action'=>['ProductlistController@updateProlist',$productlist->id],'method'=>'PATCH','files'=>true]) !!}
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Edit Product List</h4>
@@ -57,9 +56,8 @@
             {!! Form::submit('Update',['class'=>'btn btn-success btn-sm pull-left' ]) !!}
             <a href="#" data-dismiss="modal" class="btn btn-default btn-sm pull-left">Close</a>
         </div>
-
+        {!! Form::close() !!}
     </div>
-    {!! Form::close() !!}
 </div>
 
 {{--<script type="text/javascript">--}}

@@ -25,12 +25,101 @@ class CustomerController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->all());
+        $this->validate($request,[
+            'khname'          =>'required',
+            'engname'      =>'required',
+            'contact'         =>'required',
+            'province_id'      =>'required',
+            'district_id'  =>'required',
+            'commune_id'          =>'required',
+            'village_id'      =>'required',
+            'channel_id'      =>'required'
+        ],[
+            'khname.required'         =>'Khmer name required',
+            'engname.required'     =>'English name required',
+            'contact.required'        =>'Contact required',
+            'province_id.required'  =>'Please choose one province',
+            'district_id.required'         =>'Please choose one district',
+            'commune_id.required'     =>'Please choose on commune',
+            'village_id.required'     =>'Please choose on village',
+            'channel_id.required'        =>'Please choose on channel name'
+        ]);
+        $user = new Customer();
+        $user->khname      = trim($request->input('khname'));
+        $user->engname  = trim($request->input('engname'));
+        $user->contact         = trim($request->input('contact'));
+        $user->province_id     = $request->input('province_id');
+        $user->district_id        = $request->input('district_id');
+        $user->commune_id     = $request->input('commune_id');
+        $user->village_id        = $request->input('village_id');
+        $user->homeno        = trim($request->input('homeno'));
+        $user->streetno        = trim($request->input('streetno'));
+        $user->channel_id        = $request->input('channel_id');
+        $user->user_id       = Auth::user()->id;
+        $user->active       =1;
+        $user->save();
+
+        return redirect()->back();
+    }
+    public function deleteCustomer($id)
+    {
+        $customer = Customer::find($id);
+        $customer->active =0;
+        $customer->save();
+        return redirect('/admin/customer/create');
+    }
+    public function editCustomer($id){
+        $customer = Customer::findOrFail($id);
+        $province = Province::pluck('name','id');
+        $district = District::pluck('name','id');
+        $commune = Commune::pluck('name','id');
+        $village = Village::pluck('name','id');
+        $channel = Channel::pluck('name','id');
+        return view('admin.customers.edit',compact('customer','province','district','commune','village','channel'));
+    }
+    public function updateCustomer(Request $request, $id){
+        $this->validate($request,[
+            'khname'          =>'required',
+            'engname'      =>'required',
+            'contact'         =>'required',
+            'province_id'      =>'required',
+            'district_id'  =>'required',
+            'commune_id'          =>'required',
+            'village_id'      =>'required',
+            'channel_id'      =>'required'
+        ],[
+            'khname.required'         =>'Khmer name required',
+            'engname.required'     =>'English name required',
+            'contact.required'        =>'Contact required',
+            'province_id.required'  =>'Please choose one province',
+            'district_id.required'         =>'Please choose one district',
+            'commune_id.required'     =>'Please choose on commune',
+            'village_id.required'     =>'Please choose on village',
+            'channel_id.required'        =>'Please choose on channel name'
+        ]);
+        $user = Customer::findOrFail($id);
+        $user->khname      = trim($request->input('khname'));
+        $user->engname  = trim($request->input('engname'));
+        $user->contact         = trim($request->input('contact'));
+        $user->province_id     = $request->input('province_id');
+        $user->district_id        = $request->input('district_id');
+        $user->commune_id     = $request->input('commune_id');
+        $user->village_id        = $request->input('village_id');
+        $user->homeno        = trim($request->input('homeno'));
+        $user->streetno        = trim($request->input('streetno'));
+        $user->channel_id        = $request->input('channel_id');
+        $user->user_id       = Auth::user()->id;
+        $user->save();
+        return redirect()->back();
+    }
+    public function viewCustomer($id){
+        $customer = Customer::findOrFail($id);
+        return view('admin.customers.view',compact('customer'));
     }
     public function getTableCustomerlist()
     {
         $customer = Customer::where('active',1)->get();
-        return view('admin.productlists.table_customerlist_view',compact('customer'));
+        return view('admin.customers.table_customer_view',compact('customer'));
     }
     //Province
     public function createProvince($name)

@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     {!! Form::label('province_id','&nbsp;Province') !!}
                                     <div class="input-group">
-                                        {!! Form::select('province_id',$province,null,['class'=>'form-control province_id','placeholder'=>'Please select one', 'id'=>'province_id']) !!}
+                                        {!! Form::select('province_id',$province,null,['class'=>'form-control province_id','placeholder'=>'---Please select one---', 'id'=>'province_id']) !!}
                                             <span class="input-group-btn">
                                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#province" onclick="addPro()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                             </span>
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     {!! Form::label('district_id','&nbsp;District') !!}
                                     <div class="input-group">
-                                        {!! Form::select('district_id',$district,null,['class'=>'form-control district_id','placeholder'=>'Please select one','id'=>'district_id']) !!}
+                                        {!! Form::select('district_id',$district,null,['class'=>'form-control district_id','placeholder'=>'---Please select one---','id'=>'district_id']) !!}
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary" data-toggle="modal" data-target="#district" onclick="addDis()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                         </span>
@@ -62,7 +62,7 @@
                         <div class="form-group">
                             {!! Form::label('commune_id','&nbsp;Commune') !!}
                             <div class="input-group">
-                                {!! Form::select('commune_id',$commune,null,['class'=>'form-control commune_id','placeholder'=>'Please select one', 'id'=>'commune_id']) !!}
+                                {!! Form::select('commune_id',$commune,null,['class'=>'form-control commune_id','placeholder'=>'---Please select one---', 'id'=>'commune_id']) !!}
                                 <span class="input-group-btn">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#commune" onclick="addCom()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                 </span>
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 {!! Form::label('village_id','&nbsp;Village') !!}
                                 <div class="input-group">
-                                    {!! Form::select('village_id',$village,null,['class'=>'form-control','placeholder'=>'Please select one','id'=>'village_id' ]) !!}
+                                    {!! Form::select('village_id',$village,null,['class'=>'form-control','placeholder'=>'---Please select one---','id'=>'village_id' ]) !!}
                                     <span class="input-group-btn">
                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#village" onclick="addVil()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                     </span>
@@ -86,7 +86,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             {!! Form::label('homeno','&nbsp;Home No',['class'=>'edit-label']) !!}
-                            {!! Form::text('homeno',null,['class'=>'edit-form-control','placeholder'=>'Home No', 'required'=>true ]) !!}
+                            {!! Form::text('homeno',null,['class'=>'edit-form-control','placeholder'=>'Home No' ]) !!}
                             @if($errors->has('homeno'))
                                 <span class="text-danger">{{$errors->first('homeno')}}</span>
                             @endif
@@ -96,7 +96,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             {!! Form::label('streetno','&nbsp;Street No',['class'=>'edit-label']) !!}
-                            {!! Form::text('streetno',null,['class'=>'edit-form-control','placeholder'=>'Street No', 'required'=>true ]) !!}
+                            {!! Form::text('streetno',null,['class'=>'edit-form-control','placeholder'=>'Street No']) !!}
                             @if($errors->has('streetno'))
                                 <span class="text-danger">{{$errors->first('streetno')}}</span>
                             @endif
@@ -128,7 +128,32 @@
             </div>
 
             <hr>
+            {{--Users Views--}}
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Customer Views</div>
+                    <div class="panel-body">
+                        <!-- /.box-header -->
+                        <div id="tableCustomer">
 
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div id="editCustomer">
+
+                        </div>
+                    </div>
+                    <div id="myPopup" class="modal fade" role="dialog">
+                        <div id="viewCustomer">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {{--End User Views--}}
             {{--province popup--}}
 
             <div id="province" class="modal fade bs-province-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -293,6 +318,9 @@
 @section('script')
 
     <script type="text/javascript">
+//        $(document).ready(function () {
+//            $('#customer_table').DataTable();
+//        });
 
         $(document).ready(function() {
             $('.province_id').on('change',function(e){
@@ -324,6 +352,34 @@
             });
         });
         //-------------------------------------
+        function province() {
+            var f =document.getElementById("district_id_pop");
+            var province = $('#province_id_pop').val();
+            if(province ==''){
+                $('.district_id_pop').val('');
+            }
+            var url = "{{url('/admin/getDistrict')}}"+"/";
+            getValueCombo(province,url,f);
+        }
+        function district() {
+            var f =document.getElementById("commune_id_pop");
+            var district = $('#district_id_pop').val();
+            if(district ==''){
+                $('.commune_id_pop').val('');
+            }
+            var url = "{{url('/admin/getCommune')}}"+"/";
+            getValueCombo(district,url,f);
+        }
+        function commune() {
+            var f =document.getElementById("village_id_pop");
+            var commune = $('#commune_id_pop').val();
+            if(commune ==''){
+                $('.village_id_pop').val('');
+            }
+            var url = "{{url('/admin/getVillage')}}"+"/";
+            getValueCombo(commune,url,f);
+        }
+
         function getValueCombo(id,ul,f)
         {
             $.ajax({
@@ -637,24 +693,83 @@
             });
         }
 
-        {{--$(document).ready(function () {--}}
-            {{--getTabaleCustomerlist();--}}
-        {{--});--}}
+        $(document).ready(function () {
+            getTabaleCustomerlist();
+        });
 
-        {{--function getTabaleCustomerlist() {--}}
-            {{--$.ajax({--}}
-                {{--type: 'get',--}}
-                {{--url: "{{url('/admin/get/customerlist')}}",--}}
-                {{--dataType: 'html',--}}
-                {{--success: function (data) {--}}
-                    {{--$('#box-body').html(data);--}}
-                {{--},--}}
-                {{--error: function (error) {--}}
-                    {{--console.log(error);--}}
-                {{--}--}}
-            {{--});--}}
-        {{--}--}}
+        function getTabaleCustomerlist() {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/admin/get/customerlist')}}",
+                dataType: 'html',
+                success: function (data) {
+                    $('#tableCustomer').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
+        function deleteCustomer(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to delete this customer ?",
+                type: "warning",
+                showCancelButton:true,
+//              closeOnConfirm: false,
+                confirmButtonText: "Yes",
+                cancelButtonText : "No",
+                cancelButtonColor:"#d33",
+                confirmButtonColor: "red"
+            }, function() {
+                $.ajax({
+                    url : "{{url('/admin/customer/delete')}}"+"/"+id,
+                    type: "get",
+                    dataType: 'html'
+                })
+                    .done(function(data) {
+                        swal("Deleted!", "Your file was successfully deleted!", "success");
+
+                        $(document).ready(function () {
+                            getTabaleCustomerlist();
+                        });
+                    })
+                    .error(function(data) {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    });
+            });
+        }
+
+        function editCustomer(id) {
+            $.ajax({
+                type: 'get',
+                url:"{{url('/admin/customer/edit/')}}"+"/"+id,
+                dataType: 'html',
+                success:function (data) {
+                    $('#editCustomer').html(data);
+                },
+                error:function (error) {
+                    console.log(error);
+                }
+
+            });
+
+        }
+
+        function viewCustomer(id) {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/admin/customer/view')}}"+'/'+id,
+                dataType: 'html',
+                success: function (data) {
+                    $('#viewCustomer').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
     </script>
 
 @endsection

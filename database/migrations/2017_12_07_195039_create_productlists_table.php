@@ -26,6 +26,7 @@ class CreateProductlistsTable extends Migration
         });
     }
 
+
     /**
      * Reverse the migrations.
      *

@@ -55,7 +55,7 @@ class ProductlistController extends Controller
     }
 
 
-    public function editProlist(Request $request, $id){
+    public function editProlist($id){
 
         $productlist = Productlist::findOrFail($id);
         $category = Category::pluck('name','id');

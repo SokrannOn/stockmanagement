@@ -24,7 +24,8 @@
     {{--sweet alert--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     {{--data table--}}
-    <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap.css')}}">
     {{--end data table--}}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -165,8 +166,8 @@
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- DataTables -->
-    <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 
     <script src="{{ asset('js/app.js') }}"></script>
 

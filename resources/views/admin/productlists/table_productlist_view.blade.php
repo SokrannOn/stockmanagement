@@ -22,7 +22,7 @@
                 <td class="center">{{$p->productbarcode}}</td>
                 <td>{{$p->category->name}}</td>
                 <td class="center">
-                    <a href="#" onclick='editProlist("{{$p->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
+                    <a href="#" onclick='editProlist("{{$p->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
                     <a href="#" style="padding: 5px;" onclick='deleteProductlist("{{$p->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
                 </td>
         </tr>

@@ -66,8 +66,8 @@
                                         <td>{{$c->description}}</td>
                                         <td>{{\App\User::where('id',$c->user_id)->value('name')}}</td>
                                         <td class="center">
-                                            <a href="#" onclick="editChannel('{{$c->id}}')" class="btn btn-warning btn-xs" data-toggle="modal" data-target=".bs-example-modal-sm">Edit</a>
-                                            <a href="{{url('/admin/channel/delete',[$c->id])}}" class="btn btn-danger btn-xs">Delete</a>
+                                            <a href="#" onclick="editChannel('{{$c->id}}')" data-toggle="modal" data-target=".bs-example-modal-sm" style="padding: 5px;"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
+                                            <a href="{{url('/admin/channel/delete',[$c->id])}}" style="padding: 5px"><i class="fa fa-trash" style="color: red;"></i></a>
 
                                         </td>
                                     </tr>

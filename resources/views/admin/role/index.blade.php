@@ -56,8 +56,8 @@
                                                 <td>{{$r->name}}</td>
                                                 <td>{{\App\User::where('id',$r->user_id)->value('name')}}</td>
                                                 <td class="center">
-                                                    <a href="#" onclick="updateRole('{{$r->id}}')" class="btn btn-warning btn-xs" data-toggle="modal" data-target=".bs-example-modal-sm">Edit</a>
-                                                    <a href="{{url('/admin/delete/role',[$r->id])}}" class="btn btn-danger btn-xs">Delete</a>
+                                                    <a href="#" onclick="updateRole('{{$r->id}}')" data-toggle="modal" data-target=".bs-example-modal-sm" style="padding: 5px;"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
+                                                    <a href="{{url('/admin/delete/role',[$r->id])}}" style="padding: 5px;"><i class="fa fa-trash" style="color: red;"></i></a>
 
                                                 </td>
                                             </tr>

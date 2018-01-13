@@ -78,6 +78,27 @@
         Route::get('/admin/village/create/{name}/{commune_id}','CustomerController@createVillage');
         Route::get('/admin/get/select/village/{commune_id}','CustomerController@selectVillage');
 
+        //customer
+        Route::get('/admin/customer/delete/{id}','CustomerController@deleteCustomer');
+        Route::get('/admin/customer/edit/{id}','CustomerController@editCustomer');
+        Route::patch('/admin/customer/update/{id}','CustomerController@updateCustomer');
+        Route::get('/admin/customer/view/{id}','CustomerController@viewCustomer');
+
+        //Supplier
+        Route::resource('/supplier','SupplierController');
+        Route::get('/supplier/get','SupplierController@index');
+
+        //pricelist
+        Route::get('/admin/pricelist/create','PricelistController@create');
+        Route::get('/admin/get/pricelist','PricelistController@getTabalePricelist');
+        Route::post('/admin/pricelist/store','PricelistController@store');
+        Route::get('/admin/pricelist/delete/{id}','PricelistController@delete');
+        Route::get('/admin/pricelist/edit/{id}','PricelistController@edit');
+        Route::patch('/admin/pricelist/update/{id}','PricelistController@update');
+
+
+        //stock in
+        Route::resource('/stock','StockController');
 
     });
 
