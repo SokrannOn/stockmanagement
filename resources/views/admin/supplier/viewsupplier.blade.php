@@ -19,8 +19,8 @@
                     <td>{!! $sup->contactnumber !!}</td>
                     <td>{!! $sup->address !!}</td>
                     <td>
-                        <a href="#" style="padding: 5px;"><i class="fa fa-edit"></i></a>
-                        <a href="#" style="padding: 5px;"><i class="fa fa-trash" style="color: red;"></i></a>
+                        <a href="#" onclick='editSupplier("{{$sup->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
+                        <a href="#" style="padding: 5px;" onclick='deleteSupplier("{{$sup->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
 
                     </td>
                 </tr>

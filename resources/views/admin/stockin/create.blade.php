@@ -92,8 +92,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            {!! Form::submit('Add',['class'=>'btn btn-primary btn-sm']) !!}
-                            {!! Form::reset('Reset',['class'=>'btn btn-danger btn-sm']) !!}
+                            {!! Form::submit('Create',['class'=>'btn btn-primary btn-sm']) !!}
+                            {!! Form::reset('Reset',['class'=>'btn btn-warning btn-sm']) !!}
                         </div>
                     </div>
 

@@ -61,20 +61,43 @@ class SupplierController extends Controller
         //
     }
 
-    public function edit($id)
-    {
-        //
+    public function edit($id){
+
+        $supplier = Supply::findOrFail($id);
+        return view('admin.supplier.edit',compact('supplier'));
     }
 
+    public function update(Request $request, $id){
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required',
+            'contactnumber'=>'required|numeric',
+            'address'=>'required',
 
-    public function update(Request $request, $id)
-    {
-        //
+        ],[
+            'name.required'=>'Name required',
+            'email.required'=>'Email required',
+            'contactnumber.required'=>'Contact required',
+            'address.required'=>'Address required',
+        ]);
+
+        $su = Supply::find($id);
+        $su->name = trim($request->input('name'));
+        $su->email = trim($request->input('email'));
+        $su->contactnumber = trim($request->input('contactnumber'));
+        $su->address = trim($request->input('address'));
+        $su->user_id = Auth::user()->id;
+        $su->active = 1;
+        $su->save();
+        return redirect()->back();
     }
-
 
     public function destroy($id)
     {
-        //
+        $supplier = Supply::find($id);
+        $supplier->active =0;
+        $supplier->save();
+        return redirect()->route('supplier.index');
     }
+
 }

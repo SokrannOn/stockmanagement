@@ -87,6 +87,10 @@
         //Supplier
         Route::resource('/supplier','SupplierController');
         Route::get('/supplier/get','SupplierController@index');
+        Route::get('/admin/supplier/delete/{id}','SupplierController@destroy');
+        Route::get('/admin/supplier/edit/{id}','SupplierController@edit');
+        Route::patch('/admin/supplier/update/{id}','SupplierController@update');
+
 
         //pricelist
         Route::get('/admin/pricelist/create','PricelistController@create');
