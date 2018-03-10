@@ -1,19 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Addproduct;
+use App\Addsession;
+use App\Import;
+use App\Pricelist;
 use App\Productlist;
 use App\Supply;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class StockController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.stockin.viewproducts');
+        $stockin =$request->session()->get('stockin');
+        return view('admin.stockin.viewproducts',compact('stockin'));
     }
 
 
@@ -27,42 +32,40 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'qty'               =>'required',
-            'invdate'           =>'required',
-            'invnum'            =>'required',
-            'supplier'          =>'required',
-            'mfd'               =>'required',
-            'expd'              =>'required',
-            'product'           =>'required'
-        ],[
-            'qty.required'               =>' Quantities required',
-            'invdate.required'           =>'Invoice date required',
-            'invnum.required'            =>'Invoice number required',
-            'supplier.required'          =>'supplier required',
-            'mfd.required'               =>'Manufacture date required',
-            'expd.required'              =>'expired date required',
-            'product.required'           =>'product required'
-        ]);
 
-        $userid         = Auth::user()->id;
-        $importdate     = Carbon::now()->toDateString();
-        $qty            = $request->input('qty');
-        $invdate        = $request->input('invdate');
-        $invnum         = $request->input('invnum');
-        $supplier       = $request->input('supplier');
-        $mfd            = $request->input('mfd');
-        $expd           = $request->input('expd');
-        $product        = $request->input('product');
-        $dis            =$request->input('dis');
+            $this->validate($request,[
+                'invdate'           =>'required',
+                'invnum'            =>'required',
+                'supplier'          =>'required',
+            ],[
+                'invdate.required'           =>'Invoice date required',
+                'invnum.required'            =>'Invoice number required',
+                'supplier.required'          =>'supplier required',
+            ]);
+            $userid         = Auth::user()->id;
+            $importdate     = Carbon::now()->toDateString();
+            $invdate        = $request->input('invdate');
+            $invnum         = $request->input('invnum');
+            $supplier       = $request->input('supplier');
+            $now = Carbon::now()->toDateString();
+            $im = new Import();
+            $im->importdate  = Carbon::now()->toDateString();
+            $im->invnumber   = trim($invnum);
+            $im->invdate     = $invdate;
+            $im->supply_id   = $supplier;
+            $im->totalAmount = 0;
+            $im->discount    = $request->input('dis');
+            $im->user_id     = $userid;
+            $im->save();
+            $stockin =$request->session()->get('stockin');
+            foreach ($stockin as $s){
+                $pricelist = Pricelist::where([['product_id',$s['productid']],['startdate','=<',$now]])->value('landingprice');
+                echo $pricelist;
+//                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
+            }
 
-        if($request->session()->get('imports')){
-            $imports =[$importdate,$invnum,$invdate,$supplier,0,$dis,$userid];
-            $request->session()->pull('imports',$imports);
-        }
 
     }
-
 
     public function show($id)
     {
@@ -85,5 +88,35 @@ class StockController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addProduct(Request $request,$mfd,$expd,$dis,$productId,$qty){
+
+            $stockin[$productId]=[
+                    'productid'=>$productId,
+                    'mfd'=>$mfd,
+                    'expd'=>$expd,
+                    'qty'=>$qty
+            ];
+            $data = $request->session()->get('stockin');
+            if(count($data)){
+                if(array_key_exists($productId,$data)){
+
+                    $old = $data[$productId]['qty']; //get old qty
+                    $updateQty = (int)$old+ (int)$qty;//make a new value qty
+                    $new = array('qty'=>$updateQty); // stored a new qty in array to replace
+                    $replace = array_replace($data[$productId],$new); // replace a new value into array
+                    unset($data[$productId]);//delete index of array exist
+                    $updateProduct[$productId]=$replace; //make a new array after replace
+                    $a = $data+$updateProduct; // make array like default
+                    $request->session()->forget('stockin'); //deleted session stock in
+                    $request->session()->put('stockin',$a); // make a new session stock in
+
+                }else{
+                    $request->session()->put('stockin',$data+$stockin);
+                }
+            }else{
+                $request->session()->put('stockin',$stockin);
+            }
     }
 }

@@ -103,6 +103,7 @@
 
         //stock in
         Route::resource('/stock','StockController');
+        Route::get('/stock/addproduct/{mfd}/{expd}/{dis}/{productId}/{qty}','StockController@addProduct');
 
     });
 

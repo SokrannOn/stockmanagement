@@ -39,7 +39,6 @@
                                     <span class="text-danger">{{$errors->first('address')}}</span>
                                 @endif
                             </div>
-                        <br>
                             <div class="form-groupt">
                                 {!! Form::submit('Create',['class'=>'btn btn-primary btn-sm']) !!}
                                 {!! Form::reset('Reset',['class'=>'btn btn-warning btn-sm']) !!}
@@ -48,12 +47,13 @@
                     </div>
                     <div class="col-lg-8">
                         {{--Users Views--}}
-                        <div class="container-fluid">
+                        {{--<div class="container-fluid">--}}
+                        <br>
                             <div class="panel panel-default">
                                 <div class="panel-heading">Supplier List</div>
                                 <div class="panel-body">
                                     <!-- /.box-header -->
-                                    <div id="viewSupplier">
+                                    <div id="viewSupplier" style="overflow-x:scroll;">
 
                                     </div>
                                     <!-- /.box-body -->
@@ -66,7 +66,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        {{--</div>--}}
                         {{--End User Views--}}
                     </div>
                 </div>
