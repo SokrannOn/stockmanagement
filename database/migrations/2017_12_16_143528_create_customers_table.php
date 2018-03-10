@@ -23,7 +23,7 @@ class CreateCustomersTable extends Migration
             $table->integer('commune_id')->nullable();
             $table->integer('village_id')->nullable();
             $table->string('homeno')->nullable();
-            $table->integer('streetno')->nullable();
+            $table->string('streetno')->nullable();
             $table->integer('channel_id');
             $table->integer('user_id');
             $table->tinyInteger('active');

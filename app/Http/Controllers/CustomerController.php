@@ -58,7 +58,6 @@ class CustomerController extends Controller
         $user->user_id       = Auth::user()->id;
         $user->active       =1;
         $user->save();
-
         return redirect()->back();
     }
     public function deleteCustomer($id)

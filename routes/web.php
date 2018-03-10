@@ -104,6 +104,13 @@
         //stock in
         Route::resource('/stock','StockController');
 
+        //Purchaseorder
+        Route::resource('/purchaseorder','PurchaseorderController');
+        Route::get('/admin/add/cus','PurchaseorderController@addCus');
+        Route::get('/admin/get/cus/info/{id}','PurchaseorderController@getCusInfo');
+        Route::get('/get/product/info/{id}','PurchaseorderController@getProductInfo');
+
+
     });
 
 
