@@ -79,7 +79,7 @@ return array(
     'CreateSuppliesTable' => $baseDir . '/database/migrations/2018_01_06_103029_create_supplies_table.php',
     'CreateTableCategories' => $baseDir . '/database/migrations/2017_12_07_182453_create_table_categories.php',
     'CreateTableImportProductlist' => $baseDir . '/database/migrations/2018_01_06_095824_create_table_import_productlist.php',
-    'CreateTablePurchaseorderProduct' => $baseDir . '/database/migrations/2018_03_03_102457_create_table_purchaseorder_product.php',
+    'CreateTableProductlistPurchaseorder' => $baseDir . '/database/migrations/2018_03_17_125954_create_table_productlist_purchaseorder.php',
     'CreateTmppurchaseordersTable' => $baseDir . '/database/migrations/2018_03_10_134223_create_tmppurchaseorders_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateVillagesTable' => $baseDir . '/database/migrations/2017_12_16_150952_create_villages_table.php',

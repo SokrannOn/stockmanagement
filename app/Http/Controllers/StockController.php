@@ -32,16 +32,16 @@ class StockController extends Controller
 
     public function store(Request $request)
     {
-
-            $this->validate($request,[
-                'invdate'           =>'required',
-                'invnum'            =>'required',
-                'supplier'          =>'required',
-            ],[
-                'invdate.required'           =>'Invoice date required',
-                'invnum.required'            =>'Invoice number required',
-                'supplier.required'          =>'supplier required',
-            ]);
+//
+//            $this->validate($request,[
+//                'invdate'           =>'required',
+//                'invnum'            =>'required',
+//                'supplier'          =>'required',
+//            ],[
+//                'invdate.required'           =>'Invoice date required',
+//                'invnum.required'            =>'Invoice number required',
+//                'supplier.required'          =>'supplier required',
+//            ]);
             $userid         = Auth::user()->id;
             $importdate     = Carbon::now()->toDateString();
             $invdate        = $request->input('invdate');
@@ -59,10 +59,12 @@ class StockController extends Controller
             $im->save();
             $stockin =$request->session()->get('stockin');
             foreach ($stockin as $s){
-                $pricelist = Pricelist::where([['product_id',$s['productid']],['startdate','=<',$now]])->value('landingprice');
-                echo $pricelist;
-//                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
+                $pricelist = Pricelist::where([['productlist_id',$s['productid']],['startdate','<=',$now],['enddate','>=',$now],])->value('landingprice');
+                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
             }
+            $request->session()->forget('stockin');
+
+            return redirect()->back();
 
 
     }
@@ -99,7 +101,7 @@ class StockController extends Controller
                     'qty'=>$qty
             ];
             $data = $request->session()->get('stockin');
-            if(count($data)){
+            if($data){
                 if(array_key_exists($productId,$data)){
 
                     $old = $data[$productId]['qty']; //get old qty

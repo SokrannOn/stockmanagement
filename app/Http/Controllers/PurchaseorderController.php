@@ -6,13 +6,17 @@ use App\Channel;
 use App\Commune;
 use App\Customer;
 use App\District;
+use App\Import;
 use App\Productlist;
 use App\Province;
+use App\Purchaseorder;
 use App\Tmppurchaseorder;
 use App\Village;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseorderController extends Controller
 {
@@ -110,18 +114,40 @@ class PurchaseorderController extends Controller
     }
     public function getProductInfo($id)
     {
-        $oldQty = Tmppurchaseorder::where('product_id','=',$id)->where('user_id','=',Auth::user()->id)->value('qty');
-        $product_code = Product::where('id','=', $id)->value('product_code');
-        $qty_product = Product::where('id','=', $id)->value('qty');
-        $products = Product::find($id);
+        $qty_tmp = Tmppurchaseorder::where('productlist_id','=',$id)->where('user_id','=',Auth::user()->id)->value('qty');
+        $product_code = Productlist::where('id','=', $id)->value('productcode');
+
         $now = Carbon::now()->toDateString();
-        foreach ($products->pricelists as $product) {
-            $pricelist_id = $product->id;
-            $price = DB::table('pricelists')->where([['id','=',$pricelist_id],['startdate','<=',$now],['enddate','>=',$now],])->value('sellingprice');
-
+        $now1 = Carbon::now();
+        $addyear =$now1->addYear()->toDateString();
+        $qty_po_ordered = 0;
+//        $qty_in_stock = DB::table('import_productlist')->where([['productlist_id','=',$id],['expd','>=',$addyear],])->groupBy('productlist_id')->sum('qty');
+        $products = Productlist::find($id);
+        foreach ($products->purchaseorders as $po) {
+            $po_id = $po->id;
+            $purchaseorder = Purchaseorder::where('id',$po_id)->where('isGenerate',0)->get();
+            foreach ($purchaseorder as $pur){
+                $purchaseorder_id = $pur->id;
+                $qty_po_ordered =$qty_po_ordered+ DB::table('productlist_purchaseorder')->where([['purchaseorder_id','=',$purchaseorder_id],['productlist_id','=',$id],])->groupBy('productlist_id')->sum('qty');
+            }
         }
-        return response()->json(['pro_code'=>$product_code,'qty_product'=>$qty_product,'tmp_pro_qty'=>$oldQty,'price'=>$price]);
+        foreach ($products->imports as $im) {
+            $qty_in_stock = DB::table('import_productlist')->where([['productlist_id','=',$id],['expd','>=',$addyear],])->groupBy('productlist_id')->sum('qty');
+        }
+        foreach ($products->pricelists as $pri) {
+            $pricelist_id = $pri->id;
+            $price = DB::table('pricelists')->where([['id','=',$pricelist_id],['startdate','<=',$now],['enddate','>=',$now],])->value('sellingprice');
+        }
+        return response()->json(['pro_code'=>$product_code,'qty_tmp'=>$qty_tmp,'qty_in_stock'=>$qty_in_stock,'qty_po_ordered'=>$qty_po_ordered,'price'=>$price]);
     }
-
+    public function getShowProduct()
+    {
+        $tmpdata = Tmppurchaseorder::all();
+        return view('admin.purchaseorders.showProduct',compact('tmpdata'));
+    }
+    public function addOrderProduct($proId,$qty,$price,$amount)
+    {
+        dd('');
+    }
 
 }

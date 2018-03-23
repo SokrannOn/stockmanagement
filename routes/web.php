@@ -110,6 +110,9 @@
         Route::get('/admin/add/cus','PurchaseorderController@addCus');
         Route::get('/admin/get/cus/info/{id}','PurchaseorderController@getCusInfo');
         Route::get('/get/product/info/{id}','PurchaseorderController@getProductInfo');
+        Route::get('/get/show/product','PurchaseorderController@getShowProduct');
+        Route::get('/add/order/product/{proid}/{qty}/{price}/{amount}','PurchaseorderController@addOrderProduct');
+
 
 
     });

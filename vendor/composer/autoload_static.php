@@ -351,7 +351,7 @@ class ComposerStaticInitfd76d284e5545d00c4278faf06f611d2
         'CreateSuppliesTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_06_103029_create_supplies_table.php',
         'CreateTableCategories' => __DIR__ . '/../..' . '/database/migrations/2017_12_07_182453_create_table_categories.php',
         'CreateTableImportProductlist' => __DIR__ . '/../..' . '/database/migrations/2018_01_06_095824_create_table_import_productlist.php',
-        'CreateTablePurchaseorderProduct' => __DIR__ . '/../..' . '/database/migrations/2018_03_03_102457_create_table_purchaseorder_product.php',
+        'CreateTableProductlistPurchaseorder' => __DIR__ . '/../..' . '/database/migrations/2018_03_17_125954_create_table_productlist_purchaseorder.php',
         'CreateTmppurchaseordersTable' => __DIR__ . '/../..' . '/database/migrations/2018_03_10_134223_create_tmppurchaseorders_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateVillagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_16_150952_create_villages_table.php',

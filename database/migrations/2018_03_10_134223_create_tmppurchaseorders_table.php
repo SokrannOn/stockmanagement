@@ -15,7 +15,7 @@ class CreateTmppurchaseordersTable extends Migration
     {
         Schema::create('tmppurchaseorders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('product_id');
+            $table->integer('productlist_id');
             $table->integer('qty');
             $table->double('unitPrice');
             $table->double('amount');

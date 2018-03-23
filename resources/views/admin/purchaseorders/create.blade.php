@@ -36,7 +36,7 @@
 
                     </div>
 
-                    <div class="panel panel-footer panel-primary">
+                    <div class="panel panel-footer" style="box-shadow: 2px 0px 5px #2c3b41">
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group {{ $errors->has('product_id') ? ' has-error' : '' }}">
@@ -54,6 +54,9 @@
                                 <div class="form-group {{ $errors->has('qty') ? ' has-error' : '' }}">
                                     {!!Form::label('qty','Quantity',[])!!}
                                     {!!Form::number('qty',null,['class'=>'edit-form-control qty','readonly'=>'readonly','min'=>'0','autocomplete'=>'off'])!!}
+                                    <div id="error">
+
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -69,16 +72,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <a class="btn btn-primary btn-xs add" onclick="addOrderCus()" ><i class="fa fa-cart-plus" aria-hidden="true"></i> Add</a>
-                                <a class="btn btn-info btn-xs" onclick="showProductCus()" ><i class="fa fa-eye" aria-hidden="true"></i> View</a>
-                                <a href="{{url('/admin/cancel')}}" class="btn btn-warning btn-xs pull-right">Cancel</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a class="btn btn-primary btn-sm" onclick="addOrder()" ><i class="fa fa-cart-plus" aria-hidden="true"></i> Add</a>
+                            <a href="{{url('/admin/cancel')}}" class="btn btn-default btn-sm">Close</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="showProduct">
+                                <div class="center">
+                                    <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i> <span>&nbsp; Wait...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                {!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
+                <input type="hidden" name="qty_in_stock" class="qty_in_stock">
+                <input type="hidden" name="qty_tmp" class="qty_tmp">
+                <input type="hidden" name="qty_po_ordered" class="qty_po_ordered">
                 {!!Form::close()!!}
                 <div id="customer" class= "modal fade bs-example-modal-lg">
 
@@ -123,23 +135,42 @@
                 }
             });
         }
-
+        function showProduct() {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/get/show/product')}}",
+                dataType: 'html',
+                success: function (data) {
+                    $('#showProduct').fadeIn('slow').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
         $(document).ready(function() {
             $('.customerid').select2();
+            showProduct();
         });
 
-        function addOrderCus(){
+        function addOrder(){
             var proid =$(".productId").val();
             var qty = $(".qty").val();
             var price =$(".price").val();
             var amount = $(".amount").val();
-            if(qty){
+            if(!proid){
+                $(".productId").css('border','1px solid red');
+                $(".qty").css('border','1px solid red');
+                $(".price").css('border','1px solid red');
+                $(".amount").css('border','1px solid red');
+                $(".proId").css('border','1px solid red');
+            }
+            if(qty>=0){
                 $.ajax({
-                    url:"{{url('/addOrderCus')}}"+"/"+proid+"/"+qty+"/"+price+"/"+amount,
+                    url:"{{url('/add/order/product')}}"+"/"+proid+"/"+qty+"/"+price+"/"+amount,
                     type:'get',
                     dataType: 'json',
                     success:function(data){
-                        $('.add').attr('disabled','true');
                         $(".productId").val('');
                         $('.proId').val(null);
                         $('.qty').val(null)
@@ -151,27 +182,28 @@
                         console.log(error)
                     },
                 });
+            }else {
+                $('#error').html("<span class ='text-danger'> Invalid number!</span>");
+                $('.qty').val(null);
+                $(".amount").val(0);
+                $(".qty").css('border','1px solid red');
+                $('.qty').focus();
             }
         }
 
         $('.productId').on('change',function(e){
             var proId= $(this).val();
+            getProductInfo(proId);
+            $('#error').html('');
+            $(".productId").css('border','1px solid lightblue');
+            $(".qty").css('border','1px solid lightblue');
+            $(".price").css('border','1px solid lightblue');
+            $(".amount").css('border','1px solid lightblue');
+            $(".proId").css('border','1px solid lightblue');
             $('.qty').removeAttr('readonly','readonly');
             $('.qty').val('');
             $('.qty').focus();
-            $('.qty').css('border','1px solid lightblue');
             $('.amount').val(0);
-            if(proId==''){
-                $('.add').attr('disabled','true');
-                $('.qty').attr('readonly','readonly');
-                $('.qty').css('border','1px solid lightblue');
-                $('.proId').val(null);
-                $('.price').val(0);
-                $('.amount').val(0);
-                $('.productId').focus();
-            }else{
-                getProductInfo(proId);
-            }
         });
         //---------------------------
         function getProductInfo(id){
@@ -180,11 +212,12 @@
                 url:"{{url('/get/product/info')}}"+"/"+id,
                 success:function(response){
                     $('.proId').val(response.pro_code);
-                    $('.qty_pro_in_stock').val(response.qty_product);
-                    if(response.tmp_pro_qty!=null){
-                        $('.tmp_pro_qty').val(response.tmp_pro_qty);
+                    $('.qty_in_stock').val(response.qty_in_stock);
+                    $('.qty_po_ordered').val(response.qty_po_ordered);
+                    if(response.qty_tmp!=null){
+                        $('.qty_tmp').val(response.qty_tmp);
                     }else{
-                        $('.tmp_pro_qty').val(0);
+                        $('.qty_tmp').val(0);
                     }
                     $('.price').val(response.price);
                 },
@@ -193,5 +226,41 @@
                 }
             });
         }
+
+        $( ".qty" ).keyup(function() {
+            var qty = $('.qty').val();
+            var qty_in_stock = $('.qty_in_stock').val();
+            var qty_tmp = $('.qty_tmp').val();
+            var qty_po_ordered = $('.qty_po_ordered').val();
+            var qtys = null;
+            var qty_in_stocks = null;
+            var qty_tmps = null;
+            var qty_po_ordereds = null;
+            var quantities = null;
+            qtys = parseInt(qty);
+            qty_in_stocks = parseInt(qty_in_stock);
+            qty_tmps = parseInt(qty_tmp);
+            qty_po_ordereds = parseInt(qty_po_ordered);
+            quantities = qtys + qty_tmps +qty_po_ordereds;
+            var quantity=qty_tmps +qty_po_ordereds
+            var price = $('.price').val();
+            var total = qty * price;
+            var amount = total.toFixed(2);
+            $('.amount').val(amount);
+            if(quantities >= 0 && quantities <= qty_in_stocks){
+                $('#error').html('');
+                $('.qty').css('border','1px solid lightblue');
+            }else if(quantities >= 0 && quantities > qty_in_stocks){
+                $('.qty').css('border','1px solid red');
+                var qty_available = qty_in_stocks - quantity;
+//                alert("Stock available only: "+qty_available+" items!");
+                $('#error').html("<span class ='text-danger'> Stock available only: "+qty_available+" </span>");
+                $('.qty').val(null)
+                $(".amount").val(0);
+            }else{
+                $('.amount').val(0);
+                $('.qty').css('border','1px solid red');
+            }
+        });
     </script>
 @stop
