@@ -15,9 +15,20 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         {!! Form::label('Role Name') !!}
-                                        {!! Form::text('name',null,['class'=>'edit-form-control']) !!}
+                                        {!! Form::text('name',null,['class'=>'edit-form-control','required','placeholder'=>'Please provide role']) !!}
                                         @if($errors->has('name'))
                                             <span class="text-danger">{{$errors->first('name')}}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        {!! Form::label('Permission') !!}
+                                        {!! Form::select('permission_id[]',$pe,null,['class'=>'edit-form-control','placeholder'=>'Please provide permission','id'=>'permission','multiple'=>'true','required']) !!}
+                                        @if($errors->has('permission_id'))
+                                            <span class="text-danger">{{$errors->first('permission_id')}}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -44,6 +55,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Role Name</th>
+                                            <th>Permission</th>
                                             <th>Created By</th>
                                             <th style="width:20%; !important;" class="center">Action</th>
                                         </tr>
@@ -54,6 +66,11 @@
                                             <tr>
                                                 <td>{{$i++}}</td>
                                                 <td>{{$r->name}}</td>
+                                                <td>
+                                                    @foreach($r->permissions as $p)
+                                                        <span class="label label-success">{{$p->name}}</span>
+                                                    @endforeach
+                                                </td>
                                                 <td>{{\App\User::where('id',$r->user_id)->value('name')}}</td>
                                                 <td class="center">
                                                     <a href="#" onclick="updateRole('{{$r->id}}')" data-toggle="modal" data-target=".bs-example-modal-sm" style="padding: 5px;"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
@@ -93,13 +110,17 @@
                 dataType:'html',
                 success:function (data) {
                     $('#updateRole').html(data);
-//                    alert('message');
                 },
                 error:function (error) {
                     console.log(error);
                 }
             });
         }
+        $(document).ready(function() {
+            $('#permission').select2();
+        });
+
+
     </script>
 @endsection
 

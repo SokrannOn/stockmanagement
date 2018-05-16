@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Permission;
 use App\Position;
 use App\Role;
 use App\User;
@@ -21,6 +22,19 @@ class DefaultController extends Controller
             $Role->user_id=1;
             $Role->save();
         }
+        $permission = Permission::all();
+        if(!count($permission)){
+            $data = ['create','edit','view','delete'];
+            $i=1;
+            foreach ($data as $d){
+                $pe = new Permission();
+                $pe->permission_id = $i++;
+                $pe->name = $d;
+                $pe->save();
+            }
+        }
+
+
 
         $position = Position::all();
         if(!count($position)){
@@ -46,6 +60,9 @@ class DefaultController extends Controller
            $users->save();
 
         }
+
+
+
 
         if(Auth::check()){
             return view(' admin.dashboard');

@@ -5,6 +5,7 @@
     Route::post('/changed/pass/success','DefaultController@changedPass')->middleware('checklog');
 
     Route::group(['middleware'=>['checklog','changePassword','web']],function (){
+
         Route::get('/home','DefaultController@index');
         Route::get('/admin','DefaultController@AdminPanel');
         Route::get('/role/view','RoleController@index');
@@ -104,32 +105,15 @@
         //stock in
         Route::resource('/stock','StockController');
         Route::get('/stock/addproduct/{mfd}/{expd}/{dis}/{productId}/{qty}','StockController@addProduct');
+        Route::get('/stock/discard/record','StockController@discardRecord');
+        Route::get('/stock/view/record','StockController@viewRecord')->name('viewStockIn');
+        Route::get('/stock/view/history/{id}','StockController@historyView');
+        Route::get('/stock/view/detail/{id}','StockController@viewDetail');
+
+        //stock out
+        Route::resource('/stockout','stockOutController');
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Auth::routes();
 

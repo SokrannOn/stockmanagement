@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Addproduct;
 use App\Addsession;
+use App\Historyimport;
 use App\Import;
+use App\PermissionUser;
 use App\Pricelist;
 use App\Productlist;
 use App\Supply;
@@ -19,14 +21,28 @@ class StockController extends Controller
     {
         $stockin =$request->session()->get('stockin');
         return view('admin.stockin.viewproducts',compact('stockin'));
+
     }
+    public function viewRecord(){
 
+        if(PermissionUser::view()){
+            $im = Import::all();
+            return view('admin.stockin.view',compact('im'));
+        }else{
+            return view('admin.errors.permission');
+        }
 
+    }
     public function create()
     {
-        $su  = Supply::where('active',1)->pluck('name','id');
-        $pro = Productlist::where('active',1)->pluck('khname','id');
-        return view('admin.stockin.create',compact('su','pro'));
+        if(PermissionUser::create()){
+            $su  = Supply::where('active',1)->pluck('name','id');
+            $pro = Productlist::where('active',1)->pluck('khname','id');
+            return view('admin.stockin.create',compact('su','pro'));
+        }else{
+            return view('admin.errors.permission');
+        }
+
     }
 
 
@@ -57,25 +73,39 @@ class StockController extends Controller
             $im->discount    = $request->input('dis');
             $im->user_id     = $userid;
             $im->save();
+            $id = $im->id;
+            $total =0;
             $stockin =$request->session()->get('stockin');
-            foreach ($stockin as $s){
-                $pricelist = Pricelist::where([['product_id',$s['productid']],['startdate','=<',$now]])->value('landingprice');
-                echo $pricelist;
-//                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
+            foreach ($stockin as $s) {
+                $pricelist = Pricelist::where([['product_id', $s['productid']], ['enddate', '>=', $now]])->value('landingprice');
+                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>$pricelist,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
+                $total+=$s['qty']*$pricelist;
+                $his = new Historyimport();
+                $his->import_id = $id;
+                $his->productlist_id =$s['productid'];
+                $his->qty = $s['qty'];
+                $his->landinprice = $pricelist;
+                $his->mdf = $s['mfd'];
+                $his->expd = $s['expd'];
+                $his->save();
             }
-
+            $i = Import::find($id);
+            $i->totalAmount= $total;
+            $i->save();
+            $request->session()->forget('stockin');
+            return redirect()->back();
 
     }
 
     public function show($id)
     {
-        //
+
     }
 
 
     public function edit($id)
     {
-        //
+
     }
 
 
@@ -118,5 +148,21 @@ class StockController extends Controller
             }else{
                 $request->session()->put('stockin',$stockin);
             }
+    }
+
+    public function discardRecord(Request $request){
+        $request->session()->forget('stockin');
+    }
+
+    public function viewDetail($id){
+        $im = Import::find($id);
+        $import = $im->productlists;
+        return view('admin.stockin.viewDetail',compact('import'));
+    }
+    public function historyView($id){
+        $im = Import::find($id);
+        $his = $im->historyimports;
+        return view('admin.stockin.history',compact('his'));
+
     }
 }
