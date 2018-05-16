@@ -17,6 +17,12 @@ class Productlist extends Model
         return $this->belongsTo(Category::class);
     }
     public function pricelists(){
-        return $this->hasMany(Pricelist::class,'	product_id');
+        return $this->hasMany(Pricelist::class);
+    }
+    public function purchaseorders(){
+        return $this->belongsToMany(Purchaseorder::class)->withTimestamps()->withPivot('productlist_id','qty','unitPrice','amount','user_id');
+    }
+    public function tmppurchaseorders(){
+        return $this->hasMany(Tmppurchaseorder::class);
     }
 }

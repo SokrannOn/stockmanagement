@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     {!! Form::label('province_id','&nbsp;Province') !!}
                                     <div class="input-group">
-                                        {!! Form::select('province_id',$province,null,['class'=>'form-control province_id','placeholder'=>'---Please select one---', 'id'=>'province_id']) !!}
+                                        {!! Form::select('province_id',$province,null,['class'=>'form-control province_id','placeholder'=>'---Please select one---', 'id'=>'province_id','style'=>'border-bottom-left-radius: 5px; border-top-left-radius: 5px;']) !!}
                                             <span class="input-group-btn">
                                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#province" onclick="addPro()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                             </span>
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     {!! Form::label('district_id','&nbsp;District') !!}
                                     <div class="input-group">
-                                        {!! Form::select('district_id',$district,null,['class'=>'form-control district_id','placeholder'=>'---Please select one---','id'=>'district_id']) !!}
+                                        {!! Form::select('district_id',$district,null,['class'=>'form-control district_id','placeholder'=>'---Please select one---','id'=>'district_id','style'=>'border-bottom-left-radius: 5px; border-top-left-radius: 5px;']) !!}
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary" data-toggle="modal" data-target="#district" onclick="addDis()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                         </span>
@@ -62,7 +62,7 @@
                         <div class="form-group">
                             {!! Form::label('commune_id','&nbsp;Commune') !!}
                             <div class="input-group">
-                                {!! Form::select('commune_id',$commune,null,['class'=>'form-control commune_id','placeholder'=>'---Please select one---', 'id'=>'commune_id']) !!}
+                                {!! Form::select('commune_id',$commune,null,['class'=>'form-control commune_id','placeholder'=>'---Please select one---', 'id'=>'commune_id','style'=>'border-bottom-left-radius: 5px; border-top-left-radius: 5px;']) !!}
                                 <span class="input-group-btn">
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#commune" onclick="addCom()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                 </span>
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 {!! Form::label('village_id','&nbsp;Village') !!}
                                 <div class="input-group">
-                                    {!! Form::select('village_id',$village,null,['class'=>'form-control','placeholder'=>'---Please select one---','id'=>'village_id' ]) !!}
+                                    {!! Form::select('village_id',$village,null,['class'=>'form-control','placeholder'=>'---Please select one---','id'=>'village_id','style'=>'border-bottom-left-radius: 5px; border-top-left-radius: 5px;' ]) !!}
                                     <span class="input-group-btn">
                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#village" onclick="addVil()" type="button"><i class="fa fa-plus fa-fw" style="color: #0b93d5"></i></button>
                                     </span>
@@ -117,7 +117,7 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-                        {!! Form::submit('Create',['class'=>'btn btn-success btn-sm' ]) !!}
+                        {!!Form::submit('Create',['class'=>'btn btn-success'])!!}
                         {!! Form::reset('Clear',['class'=>'btn btn-warning btn-sm' ]) !!}
                         <a href="{{URL::to('/')}}" class="btn btn-default btn-sm">Close</a>
 

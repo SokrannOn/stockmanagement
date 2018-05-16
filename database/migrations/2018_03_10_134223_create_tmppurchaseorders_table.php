@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePricelistsTable extends Migration
+class CreateTmppurchaseordersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreatePricelistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pricelists', function (Blueprint $table) {
+        Schema::create('tmppurchaseorders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('productlist_id');
-            $table->double('fobprice');
-            $table->double('margin');
-            $table->double('landingprice');
-            $table->double('sellingprice');
-            $table->date('startdate');
-            $table->date('enddate');
+            $table->integer('qty');
+            $table->double('unitPrice');
+            $table->double('amount');
             $table->integer('user_id');
-            $table->tinyInteger('active')->nullable();
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ class CreatePricelistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pricelists');
+        Schema::dropIfExists('tmppurchaseorders');
     }
 }
