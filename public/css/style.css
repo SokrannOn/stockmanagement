@@ -25,7 +25,7 @@
     /*-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
     /*transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
 }
-<<<<<<< HEAD
+
 .padding-7{
     padding: 7px;
 }
@@ -33,12 +33,9 @@
 .cursor-pointer{
     cursor: pointer;
 }
-
-=======
 .height-35{
    height: 35px;
 }
->>>>>>> 7cc890cf658d26bee8ed241fd66a3626e4b561af
 .edit-dropdown-control{
     border-radius: 4px;
     padding: 0px 10px;

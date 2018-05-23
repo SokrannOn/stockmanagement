@@ -110,10 +110,10 @@
         Route::get('/stock/view/history/{id}','StockController@historyView');
         Route::get('/stock/view/detail/{id}','StockController@viewDetail');
 
-<<<<<<< HEAD
+
         //stock out
         Route::resource('/stockout','stockOutController');
-=======
+
         //Purchaseorder
         Route::resource('/purchaseorder','PurchaseorderController');
         Route::get('/admin/add/cus','PurchaseorderController@addCus');
@@ -122,35 +122,7 @@
         Route::get('/get/show/product','PurchaseorderController@getShowProduct');
         Route::get('/add/order/product/{proid}/{qty}/{price}/{amount}','PurchaseorderController@addOrderProduct');
 
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 7cc890cf658d26bee8ed241fd66a3626e4b561af
-
-    });
+});
 
 Auth::routes();
 

@@ -27,4 +27,8 @@ class User extends Authenticatable
         return $this->belongsTo(Position::class);
     }
 
+    public function modules(){
+        return $this->belongsToMany(Module::class)->withTimestamps();
+    }
+
 }

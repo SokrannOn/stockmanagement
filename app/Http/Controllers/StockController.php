@@ -76,7 +76,7 @@ class StockController extends Controller
             $id = $im->id;
             $total =0;
             $stockin =$request->session()->get('stockin');
-<<<<<<< HEAD
+
             foreach ($stockin as $s) {
                 $pricelist = Pricelist::where([['product_id', $s['productid']], ['enddate', '>=', $now]])->value('landingprice');
                 $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>$pricelist,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
@@ -95,7 +95,6 @@ class StockController extends Controller
             $i->save();
             $request->session()->forget('stockin');
             return redirect()->back();
-=======
             foreach ($stockin as $s){
                 $pricelist = Pricelist::where([['productlist_id',$s['productid']],['startdate','<=',$now],['enddate','>=',$now],])->value('landingprice');
                 $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
@@ -103,8 +102,6 @@ class StockController extends Controller
             $request->session()->forget('stockin');
 
             return redirect()->back();
-
->>>>>>> 7cc890cf658d26bee8ed241fd66a3626e4b561af
 
     }
 

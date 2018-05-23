@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Module;
 use App\Permission;
 use App\Position;
 use App\Role;
@@ -34,8 +35,16 @@ class DefaultController extends Controller
             }
         }
 
+        $module = Module::all();
+        if(!count($module)){
+            $data = ['Administrator','Stockmanagement','Purchaseorder'];
+            foreach ($data as $d){
+                $m = new  Module();
+                $m->module= $d;
+                $m->save();
+            }
 
-
+        }
         $position = Position::all();
         if(!count($position)){
            $pos = new Position();
@@ -58,6 +67,9 @@ class DefaultController extends Controller
            $users->active=1;
            $users->logged =1;
            $users->save();
+           $moduleId = [1,2,3];
+           $users->modules()->attach($moduleId);
+
 
         }
 
