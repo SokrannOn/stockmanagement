@@ -19,9 +19,12 @@
                     <td>{!! $sup->contactnumber !!}</td>
                     <td>{!! $sup->address !!}</td>
                     <td>
+                        @if(\App\PermissionUser::edit())
                         <a href="#" onclick='editSupplier("{{$sup->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="color: #d59b0a"></i></a>
-                        <a href="#" style="padding: 5px;" onclick='deleteSupplier("{{$sup->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
-
+                        @endif
+                        @if(\App\PermissionUser::delete())
+                            <a href="#" style="padding: 5px;" onclick='deleteSupplier("{{$sup->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -1,6 +1,4 @@
 @extends('admin.master')
-
-
 @section('content')
     <div class="container-fluid"><br>
         <div class="panel panel-default">
@@ -9,6 +7,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
+                    @if(\App\PermissionUser::create())
                     <div class="col-lg-4">
                         {!! Form::open(['action'=>'SupplierController@store','method'=>'post']) !!}
                             <div class="form-groupt">
@@ -45,7 +44,10 @@
                             </div>
                         {!! Form::close() !!}
                     </div>
-                    <div class="col-lg-8">
+                        <div class="col-lg-8">
+                    @else
+                    <div class="col-lg-12">
+                    @endif
                         {{--Users Views--}}
                         {{--<div class="container-fluid">--}}
                         <br>

@@ -73,6 +73,17 @@
 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    {!! Form::label("Module","Module") !!}
+                                    {!! Form::select("module[]",$module,null,['class'=>'form-control edit-form-control','placeholder'=>'Please provide module user','required'=>'true','id'=>'moduleEdit','multiple'=>'true']) !!}
+                                    @if($errors->has('module'))
+                                        <span class="text-danger">{{$errors->first('module')}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -89,6 +100,9 @@
             var output = document.getElementById('preViewEdit');
             output.src = URL.createObjectURL(event.target.files[0]);
         };
+        $(function () {
+            $('#moduleEdit').select2().val({{$user->modules->pluck('id')}}).trigger("change");
+        })
     </script>
 
 

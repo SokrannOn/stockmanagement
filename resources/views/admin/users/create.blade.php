@@ -2,6 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <br>
+        @if(\App\PermissionUser::create())
             <div class="panel panel-default">
                 {{--Create Users--}}
                         <div class="panel-heading">Create User</div>
@@ -93,6 +94,17 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
+                                            <div class="form-group">
+                                                {!! Form::label("Module","Module") !!}
+                                                {!! Form::select("module[]",$module,null,['class'=>'form-control edit-form-control','placeholder'=>'Please provide module user','required'=>'true','id'=>'moduleUser','multiple'=>'true']) !!}
+                                            @if($errors->has('module'))
+                                                <span class="text-danger">{{$errors->first('module')}}</span>
+                                            @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
 
                                             {!! Form::submit('Create',['class'=>'btn btn-success btn-sm' ]) !!}
                                             {!! Form::reset('Clear',['class'=>'btn btn-warning btn-sm' ]) !!}
@@ -105,6 +117,7 @@
                         </div>
 
                 <hr>
+                @endif
                 {{--End Create Users--}}
 
                 {{--Users Views--}}
@@ -148,6 +161,11 @@
 @section('script')
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#moduleUser').select2();
+            getTableUser();
+        });
+
         function getTableUser() {
             $.ajax({
                 type: 'get',
@@ -161,12 +179,6 @@
                 }
             });
         }
-
-        $(document).ready(function () {
-            getTableUser();
-        });
-
-
         var loadFile = function(event) {
             var output = document.getElementById('preView');
             output.src = URL.createObjectURL(event.target.files[0]);
@@ -183,6 +195,7 @@
                 dataType: 'html',
                 success:function (data) {
                      $('#editUser').html(data);
+                    $('#moduleUser').select2();
                 },
                 error:function (error) {
                     console.log(error);

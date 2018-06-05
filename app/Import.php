@@ -8,11 +8,16 @@ class Import extends Model
 {
     //
 
-    public function supplies(){
-        return $this->belongs(Supply::class);
+    public function supply(){
+        return $this->belongsTo(Supply::class);
     }
 
     public function productlists(){
         return $this->belongsToMany(Productlist::class)->withTimestamps()->withPivot('productlist_id','qty','landinprice','mdf','expd');
     }
+
+    public function historyimports(){
+        return $this->hasMany(Historyimport::class);
+    }
+
 }

@@ -98,6 +98,14 @@
     /*-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
     /*transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;*/
 }
+
+.padding-7{
+    padding: 7px;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
 .height-35{
    height: 35px;
 }

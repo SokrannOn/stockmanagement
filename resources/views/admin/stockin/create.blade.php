@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid"><br>
         <div class="panel panel-default">
-            {!! Form::open(['action'=>'StockController@store','method'=>'post']) !!}
+            {!! Form::open(['action'=>'StockController@store','method'=>'post','id'=>'importProduct']) !!}
                 <div class="panel-heading">
                     Import Products
                 </div>
@@ -163,6 +163,12 @@
                     url: "{{url('/stock/addproduct/')}}"+"/"+mdf+"/"+expd+"/"+dis+"/"+productid+"/"+qty,
                     dataType: 'html',
                     success:function (data) {
+                        $('#mfd').val(null);
+                        $('#expd').val(null);
+                        $('#productid option').prop('selected',function () {
+                           return this.defaultSelected;
+                        });
+                        $('#qty').val(null);
                         getData();
                         console.log(data);
                     },
@@ -173,6 +179,22 @@
                 });
             }
         }
+        function discardRecord() {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/stock/discard/record')}}",
+                dataType:'html',
+                success:function (data) {
+                    $('#importProduct')[0].reset();
+                    getData();
+                },
+                error:function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+
         function getData() {
             $.ajax({
                 type: 'get',

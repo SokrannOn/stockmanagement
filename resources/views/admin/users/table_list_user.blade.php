@@ -8,6 +8,8 @@
             <th>User Name</th>
             <th>Position</th>
             <th>Email</th>
+            <th>Role</th>
+            <th>Module</th>
             <th style="width:20%; !important;" class="center">Action</th>
         </tr>
         </thead>
@@ -21,12 +23,23 @@
                 <td style="line-height: 50px">{{$u->username}}</td>
                 <td style="line-height: 50px">{{$u->position->name}}</td>
                 <td style="line-height: 50px">{{$u->email}}</td>
+                <td style="line-height: 50px">{{$u->role->name}}</td>
+                <td>
+                    @foreach($u->modules as $m)
+                        <span class="label label-success">{{$m->module}}</span>
+                    @endforeach
+                </td>
                 <td style="line-height: 50px" class="center">
+                    @if(\App\PermissionUser::edit())
                     <a href="#" onclick='editUser("{{$u->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
                     <a href="#" onclick='resetPassword("{{$u->id}}")' data-toggle="modal" data-target=".bs-example-modal-sm" style="padding: 5px;"><i class="fa fa-refresh"></i></a>
-                    <a href="#" style="padding: 5px;" onclick='deleteUser("{{$u->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
+                    @endif
+                    @if(\App\PermissionUser::delete())
+                        <a href="#" style="padding: 5px;" onclick='deleteUser("{{$u->id}}")'><i class="fa fa-trash" style="color: red;"></i></a>
+                    @endif
+                    @if(\App\PermissionUser::view())
                     <a href="#" onclick='viewUser("{{$u->id}}")' style="padding: 5px;" data-toggle="modal" data-target="#viewUser" style="padding: 5px;"><i class="fa fa-eye" style=""></i></a>
-
+                    @endif
                 </td>
         </tr>
 

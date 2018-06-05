@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Module;
 use App\Position;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\AssignOp\Mod;
 
 class UserController extends Controller
 {
@@ -16,7 +18,8 @@ class UserController extends Controller
         $role = Role::pluck('name','id');
         $position =Position::pluck('name','id');
         $user = User::where('active',1)->get();
-        return view('admin.users.create',compact('role','position','user'));
+        $module = Module::pluck('module','id');
+        return view('admin.users.create',compact('role','position','user','module'));
     }
 
 
@@ -29,7 +32,8 @@ class UserController extends Controller
             'confirm_pass'  =>'required',
             'role'          =>'required',
             'position'      =>'required',
-            'image'         =>'image|mimes:jpeg,png'
+            'image'         =>'image|mimes:jpeg,png',
+            'module'        =>'required'
         ],[
             'name.required'         =>'field name required',
             'username.required'     =>'field user name required',
@@ -37,8 +41,10 @@ class UserController extends Controller
             'email.unique'          =>'Email already existed',
             'role.required'         =>'please choose one role',
             'position.required'     =>'please choose on position',
-            'image.image'           =>'only image'
+            'image.image'           =>'only image',
+            'module.required'       =>'Please provide module user'
         ]);
+        $module = $request->input('module');
         $time =Carbon::now()->toDateString();
         $name="default_user.png";
         if($file =$request->file('image')){
@@ -54,7 +60,9 @@ class UserController extends Controller
         $user->password     =bcrypt($request->input('password'));
         $user->photo        = $name;
         $user->active       =1;
+        $user->logged       = 1;
         $user->save();
+        $user->modules()->attach($module);
 
         return redirect()->back();
     }
@@ -65,15 +73,19 @@ class UserController extends Controller
             $user     = User::find($id);
             $role     = Role::pluck('name','id');
             $position = Position::pluck('name','id');
-            return view('admin.users.edit',compact('user','role','position'));
+            $module = Module::pluck('module','id');
+            return view('admin.users.edit',compact('user','role','position','module'));
         }
         return view('admin.errors.404');
     }
 
     public function update(Request $request,$id){
         $time =Carbon::now()->toDateString();
+        $module = $request->input('module');
         $ds = DIRECTORY_SEPARATOR;
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        $user->modules()->detach();
+        $user->modules()->attach($module);
         $oldName = $user->photo;
         $user->name     = $request->input('name');
         $user->username = $request->input('username');
