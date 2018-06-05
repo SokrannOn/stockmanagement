@@ -49,15 +49,15 @@ class StockController extends Controller
     public function store(Request $request)
     {
 //
-//            $this->validate($request,[
-//                'invdate'           =>'required',
-//                'invnum'            =>'required',
-//                'supplier'          =>'required',
-//            ],[
-//                'invdate.required'           =>'Invoice date required',
-//                'invnum.required'            =>'Invoice number required',
-//                'supplier.required'          =>'supplier required',
-//            ]);
+            $this->validate($request,[
+                'invdate'           =>'required',
+                'invnum'            =>'required',
+                'supplier'          =>'required',
+            ],[
+                'invdate.required'           =>'Invoice date required',
+                'invnum.required'            =>'Invoice number required',
+                'supplier.required'          =>'supplier required',
+            ]);
             $userid         = Auth::user()->id;
             $importdate     = Carbon::now()->toDateString();
             $invdate        = $request->input('invdate');

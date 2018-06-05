@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Module;
-use App\Permission;
-use App\Position;
-use App\Role;
+use App\Createdefault;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +10,7 @@ class DefaultController extends Controller
 {
     public function index(){
 
+<<<<<<< HEAD
         $role = Role::all();
         if(!count($role)){
 
@@ -76,14 +73,17 @@ class DefaultController extends Controller
 
 
 
+=======
+        Createdefault::create();
+>>>>>>> 9af9289cf0d39c8e4d4fe5509a5aadc18a42d81c
         if(Auth::check()){
             return view(' admin.dashboard');
         }
-        return view('welcome');
+        return redirect('login');
     }
 
     public function AdminPanel(){
-        return view(' admin.dashboard');
+        return view('admin.dashboard');
     }
 
     public function changePassword(){
