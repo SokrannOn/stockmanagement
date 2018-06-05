@@ -37,7 +37,7 @@ class DefaultController extends Controller
 
         $module = Module::all();
         if(!count($module)){
-            $data = ['Administrator','Stockmanagement','Purchaseorder'];
+            $data = ['Administrator','Stockmanagement','Purchaseorder','Account'];
             foreach ($data as $d){
                 $m = new  Module();
                 $m->module= $d;
