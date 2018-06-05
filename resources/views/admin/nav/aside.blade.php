@@ -24,8 +24,6 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-<<<<<<< HEAD
-
         {{--Menu Admininstrator--}}
         <li class="treeview">
             <a href="#"><i class="fa fa-lock"></i> <span>Administrator</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
@@ -382,15 +380,12 @@
                 <li><a href="pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
             </ul>
         </li>
-=======
         @php
             $user = \App\User::find(\Illuminate\Support\Facades\Auth::id());
         @endphp
         @foreach ($user->modules as $m)
             @include("admin.nav".".".$m->module)
         @endforeach
-
->>>>>>> 07696811e7b0315e1b8ad3bdf2f60897a33ae3a6
 
         {{--<li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>--}}
         {{--<li class="header">LABELS</li>--}}
