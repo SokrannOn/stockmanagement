@@ -111,7 +111,13 @@
         Route::get('/admin/get/cus/info/{id}','PurchaseorderController@getCusInfo');
         Route::get('/get/product/info/{id}','PurchaseorderController@getProductInfo');
         Route::get('/get/show/product','PurchaseorderController@getShowProduct');
-        Route::get('/add/order/product/{proid}/{qty}/{price}/{amount}','PurchaseorderController@addOrderProduct');
+        Route::get('/admin/product/buy/{id}','PurchaseorderController@productBuy');
+        Route::get('/admin/add/order/{id}/{price}/{qty}','PurchaseorderController@addOrder');
+        Route::get('/admin/remove/product/{id}','PurchaseorderController@removeProduct');
+        Route::get('/admin/get/cod','PurchaseorderController@getCod');
+        Route::get('/get/po/details/{id}','PurchaseorderController@show');
+
+
 
 
 

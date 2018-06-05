@@ -12,4 +12,8 @@ class Customer extends Model
     public  function channel(){
         return $this->belongsTo(Channel::class);
     }
+    public function purchaseorders()
+    {
+        return $this->hasMany(Purchaseorder::class);
+    }
 }

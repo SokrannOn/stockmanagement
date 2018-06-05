@@ -19,6 +19,7 @@ class CreateProductlistsTable extends Migration
             $table->string('khname');
             $table->string('productcode');
             $table->string('productbarcode');
+            $table->string('image');
             $table->integer('category_id');
             $table->integer('user_id');
             $table->tinyInteger('active');

@@ -6,7 +6,7 @@
             <div class="panel-heading"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
                 Create New Purchase Order
             </div>
-            <div class="panel panel-body">
+            <div class="panel-body">
                 {!!Form::open(['action'=>'PurchaseorderController@store','method'=>'POST'])!!}
                 {{csrf_field()}}
                     <div class="row">
@@ -14,8 +14,8 @@
                             <div class="form-group">
                                 {!! Form::label('customer_id','&nbsp;Customer Name',['class'=>'edit-label']) !!}
                                 <div class="input-group">
-                                    <select name="customer_id" class="form-control height-35 customerid" style="width: 100%;border-bottom-left-radius: 5px; border-top-left-radius: 5px;" id="customerid">
-                                            <option value="0">Please select one</option>
+                                    <select name="customer_id" class="form-control height-35 customerid" style="width: 100%;border-bottom-left-radius: 5px; border-top-left-radius: 5px;" required id="customerid">
+                                            <option value="">Please select one</option>
                                         @foreach($customer as $cus)
                                             <option value="{{$cus->id}}">{{$cus->engname . ' | ' .'CAM-CUS-'.sprintf('%06d',$cus->id)}}</option>
                                         @endforeach
@@ -35,72 +35,144 @@
                     <div id="customerInfo">
 
                     </div>
-
-                    <div class="panel panel-footer" style="box-shadow: 2px 0px 5px #2c3b41">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group {{ $errors->has('product_id') ? ' has-error' : '' }}">
-                                    {!!Form::label('product_id','Product Name',[])!!}
-                                    {!!Form::select('product_id',$product,null,['class'=>'edit-form-control height-35 productId','placeholder'=>'Please select one'])!!}
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group {{ $errors->has('product_code') ? ' has-error' : '' }}">
-                                    {!!Form::label('product_code','Product Code',[])!!}
-                                    {!!Form::text('product_code',null,['class'=>'edit-form-control proId','readonly'=>'readonly'])!!}
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group {{ $errors->has('qty') ? ' has-error' : '' }}">
-                                    {!!Form::label('qty','Quantity',[])!!}
-                                    {!!Form::number('qty',null,['class'=>'edit-form-control qty','readonly'=>'readonly','min'=>'0','autocomplete'=>'off'])!!}
-                                    <div id="error">
-
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default scroll-y" style="box-shadow: 2px 0px -11px #2c3b41; height: 400px;">
+                                @foreach($category as $c)
+                                    <div class="single category">
+                                        <h3 class="side-title">{{$c->name}}</h3>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group {{ $errors->has('unitPrice') ? ' has-error' : '' }}">
-                                    {!!Form::label('unitPrice','Unit Price',[])!!}
-                                    {!!Form::text('unitPrice',0,['class'=>'edit-form-control price','readonly'=>'readonly'])!!}
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group {{ $errors->has('amount') ? ' has-error' : '' }}">
-                                    {!!Form::label('amount','Amount',[])!!}
-                                    {!!Form::text('amount',0,['class'=>'edit-form-control amount','readonly'=>'readonly'])!!}
-                                </div>
+                                    <div class="table-responsive">
+                                        <div class="row">
+                                            <div class="col-lg-12" style="width: 5000px">
+                                                @foreach($product as $p)
+                                                    @if($p->category_id==$c->id)
+                                                        <div style="float: left;text-align: center">
+                                                            <ul class="popover-pop list-inline">
+                                                                <li>
+                                                                    <a class="cursor-pointer" data-toggle="popover"
+                                                                       data-content="
+                                                                       <?php
+                                                                            $price = \Illuminate\Support\Facades\DB::table('pricelists')->where([['productlist_id',$p->id],['startdate','<=',$now],['enddate','>=',$now],])->value('sellingprice');
+                                                                            if($price){
+                                                                                echo 'Code: '.$p->productcode . ' | Price: $ '.$price;
+                                                                            }else{
+                                                                                echo 'Code: '.$p->productcode . ' | Price: $ '. 0;
+                                                                            }
+                                                                       ?>">
+                                                                        <div class="item">
+                                                                            <img src="{{asset('/product_images/default-product.png')}}" alt="">
+                                                                            <div class="item-overlay top"></div>
+                                                                            <div class="middle">
+                                                                                <button type="button" onclick="buy('{{$p->id}}')" data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-danger btn-sm">Buy</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a class="btn btn-primary btn-sm" onclick="addOrder()" ><i class="fa fa-cart-plus" aria-hidden="true"></i> Add</a>
-                            <a href="{{url('/admin/cancel')}}" class="btn btn-default btn-sm">Close</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div id="showProduct">
-                                <div class="center">
-                                    <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i> <span>&nbsp; Wait...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <input type="hidden" name="qty_in_stock" class="qty_in_stock">
-                <input type="hidden" name="qty_tmp" class="qty_tmp">
-                <input type="hidden" name="qty_po_ordered" class="qty_po_ordered">
-                {!!Form::close()!!}
+                <input type="hidden" value="0" name="discount" class="Maindiscount">
+                <input type="hidden" value="0" name="cod" class="Maincod">
+                <input type="hidden" value="0" name="grandTotal" class="MaingrandTotal">
+                <input type="hidden" value="0" name="totalAmount" class="MaintotalAmount">
+
                 <div id="customer" class= "modal fade bs-example-modal-lg">
 
                 </div>
+                <div id="buy" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+
+                </div>
+
             </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="showProduct">
+                            <div class="center">
+                                <i class="fa fa-spinner fa-spin" style="font-size:24px"> </i> <span>&nbsp; Wait...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {!! Form::submit('Save',['class'=>'btn btn-success btn-sm btnSave']) !!}
+                        {!! Form::reset('Discard',['class'=>'btn btn-danger btn-sm' ]) !!}
+                    </div>
+                </div>
+            </div>
+            {!!Form::close()!!}
         </div>
     </div>
 @stop
 @section('script')
     <script type="text/javascript">
+        function remove(id) {
+            $.ajax({
+                type: 'get',
+                url:"{{url('/admin/remove/product')}}"+"/"+id,
+                success:function (data) {
+                    showProduct();
+                },
+                error:function (error) {
+                    console.log(error);
+                }
+
+            });
+        }
+
+        function order(){
+            var price =0;
+            var id = $('.pro_Id').val();
+            price = $('.pro_price').val();
+            var qty = $('.qty').val();
+            if(qty!=''){
+                $.ajax({
+                    type: 'get',
+                    url:"{{url('/admin/add/order')}}"+"/"+id+"/"+price+'/'+qty,
+                    dataType: 'json',
+                    success:function (data) {
+                        if(data.tmp){
+                            showProduct();
+                        }
+
+                    },
+                    error:function (error) {
+                        console.log(error);
+                    }
+
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            $(".popover-pop a").popover({
+                trigger: 'hover',
+            });
+        });
+
+        function buy(id) {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/admin/product/buy')}}"+'/'+id,
+                dataType: 'html',
+                success: function (data) {
+                    $('#buy').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
         function addCus() {
             $.ajax({
                 type: 'get',

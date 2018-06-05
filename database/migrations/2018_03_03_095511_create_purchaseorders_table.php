@@ -19,7 +19,7 @@ class CreatePurchaseordersTable extends Migration
             $table->double('totalAmount');
             $table->double('discount');
             $table->double('cod');
-            $table->double('diposit');
+            $table->double('grandTotal');
             $table->integer('customer_id');
             $table->tinyInteger('isGenerate');
             $table->integer('generateBy');

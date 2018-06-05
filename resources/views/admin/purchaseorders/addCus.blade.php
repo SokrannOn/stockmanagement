@@ -98,7 +98,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    {!!Form::submit('Create',['class'=>'btn btn-primary'])!!}
+                    {!!Form::submit('Create',['class'=>'btn btn-primary btn-sm'])!!}
                     <input type="button" value="Close" data-dismiss="modal" class="btn btn-danger btn-sm">
                 </div>
             </div>
@@ -106,4 +106,3 @@
         </div>
         </div>
     </div>
-</div>

@@ -9,4 +9,8 @@ class Purchaseorder extends Model
     public function productlists(){
         return $this->belongsToMany(Productlist::class)->withTimestamps()->withPivot('productlist_id','qty','unitPrice','amount','user_id');
     }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
