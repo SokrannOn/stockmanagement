@@ -96,7 +96,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 {!! Form::label("Module","Module") !!}
-                                                {!! Form::select("module[]",$module,null,['class'=>'form-control edit-form-control','placeholder'=>'Please provide module user','required'=>'true','id'=>'moduleUser','multiple'=>'true']) !!}
+                                                {!! Form::select("module[]",$module,null,['style'=>'width:100%','placeholder'=>'Please provide module user','required'=>'true','id'=>'moduleUser','multiple'=>'true']) !!}
                                             @if($errors->has('module'))
                                                 <span class="text-danger">{{$errors->first('module')}}</span>
                                             @endif
@@ -122,15 +122,16 @@
 
                 {{--Users Views--}}
                     <div class="container-fluid">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">User Views</div>
-                            <div class="panel-body">
+                        {{--<div class="panel panel-default">--}}
+                            {{--<div class="panel-heading">User Views</div>--}}
+                            {{--<div class="panel-body">--}}
                                     <!-- /.box-header -->
                                     <div id="box-body">
 
                                     </div>
+                            <br>
                                     <!-- /.box-body -->
-                            </div>
+                            {{--</div>--}}
                             <!-- Modal -->
                             <div id="myModal" class="modal fade" role="dialog">
                                 <div id="editUser">
@@ -151,7 +152,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        {{--</div>--}}
                     </div>
                 {{--End User Views--}}
             </div>
