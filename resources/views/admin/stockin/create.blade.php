@@ -1,6 +1,7 @@
 @extends('admin.master')
 
 @section('content')
+    @if(\App\PermissionUser::create())
     <div class="container-fluid"><br>
         <div class="panel panel-default">
             {!! Form::open(['action'=>'StockController@store','method'=>'post','id'=>'importProduct']) !!}
@@ -118,6 +119,7 @@
             {!! Form::close() !!}
         </div>
     </div>
+    @endif
 @endsection
 
 

@@ -1,5 +1,4 @@
 @extends('admin.master')
-
 @section('content')
     <br>
     <div class="container-fluid">

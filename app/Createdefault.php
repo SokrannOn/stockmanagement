@@ -30,10 +30,10 @@ class Createdefault {
 
         $module = Module::all();
         if(!count($module)){
-            $data = ['Administrator','Stockmanagement','Purchaseorder'];
-            foreach ($data as $d){
+            $data = ['Administrator','Stockmanagement','Purchaseorder','Reports'];
+            foreach ($data as $da){
                 $m = new  Module();
-                $m->module= $d;
+                $m->module= $da;
                 $m->save();
             }
 

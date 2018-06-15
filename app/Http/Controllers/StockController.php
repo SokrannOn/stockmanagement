@@ -78,10 +78,11 @@ class StockController extends Controller
             $stockin =$request->session()->get('stockin');
 
             foreach ($stockin as $s) {
-                $pricelist = Pricelist::where([['product_id', $s['productid']], ['enddate', '>=', $now]])->value('landingprice');
+                $pricelist = Pricelist::where([['productlist_id', $s['productid']], ['enddate', '>=', $now]])->value('landingprice');
                 $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>$pricelist,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
                 $total+=$s['qty']*$pricelist;
                 $his = new Historyimport();
+                $his->date = Carbon::now()->toDateString();
                 $his->import_id = $id;
                 $his->productlist_id =$s['productid'];
                 $his->qty = $s['qty'];
@@ -94,12 +95,12 @@ class StockController extends Controller
             $i->totalAmount= $total;
             $i->save();
             $request->session()->forget('stockin');
-            return redirect()->back();
-            foreach ($stockin as $s){
-                $pricelist = Pricelist::where([['productlist_id',$s['productid']],['startdate','<=',$now],['enddate','>=',$now],])->value('landingprice');
-                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
-            }
-            $request->session()->forget('stockin');
+//            return redirect()->back();
+//            foreach ($stockin as $s){
+//                $pricelist = Pricelist::where([['productlist_id',$s['productid']],['startdate','<=',$now],['enddate','>=',$now],])->value('landingprice');
+//                $im->productlists()->attach($s['productid'],['qty'=>$s['qty'],'landinprice'=>0,'mdf'=>$s['mfd'],'expd'=>$s['expd']]);
+//            }
+//            $request->session()->forget('stockin');
 
             return redirect()->back();
 

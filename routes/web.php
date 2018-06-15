@@ -126,6 +126,9 @@
         Route::get('/admin/get/cod','PurchaseorderController@getCod');
         Route::get('/get/po/details/{id}','PurchaseorderController@show');
 
+        //Reports
+        Route::resource('/report','StockinReportController');
+
 
 
 });

@@ -15,6 +15,7 @@ class CreateTableHistoryimport extends Migration
     {
         Schema::create('historyimports', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date');
             $table->integer('import_id');
             $table->integer('productlist_id');
             $table->integer('qty');
