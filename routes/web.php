@@ -126,6 +126,11 @@
         Route::get('/admin/get/cod','PurchaseorderController@getCod');
         Route::get('/get/po/details/{id}','PurchaseorderController@show');
 
+        //invoice
+        Route::get('/new/po','InvoiceController@newPo');
+        Route::get('/get/generate/invoice/{id}','InvoiceController@getGenerateInvoice');
+        Route::get('/done/generate/invoice/{id}/{r}/{d}/{v}/{due}','InvoiceController@doneGenerateInvoice');
+
 
 
 });

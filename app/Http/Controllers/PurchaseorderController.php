@@ -28,7 +28,7 @@ class PurchaseorderController extends Controller
      */
     public function index()
     {
-        $purchaseorder = Purchaseorder::all();
+        $purchaseorder = Purchaseorder::where('user_id',Auth::user()->id)->get();
         return view('admin.purchaseorders.index',compact('purchaseorder'));
     }
 

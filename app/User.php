@@ -30,5 +30,8 @@ class User extends Authenticatable
     public function modules(){
         return $this->belongsToMany(Module::class)->withTimestamps();
     }
+    public function purchaseorders(){
+        return $this->hasMany(Purchaseorder::class);
+    }
 
 }

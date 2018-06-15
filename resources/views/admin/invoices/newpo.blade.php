@@ -49,6 +49,7 @@
                                     </td>
                                     <td width="150px" style="text-align: center;">
                                         <a style="padding: 2px" class="btn btn-info btn-xs cursor-pointer " onclick="details({{$po->id}})"data-toggle="modal" data-target="#details" > Details</a>
+                                        <a style="padding: 2px" class="btn btn-primary btn-xs cursor-pointer" onclick="generate({{$po->id}})" data-toggle="modal" data-target=".bs-example-modal-sm" > Generate</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -61,6 +62,9 @@
                     <div id="details" class="modal fade" role="dialog">
 
                     </div>
+                        <div id="generate" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+
+                        </div>
                 </div>
             </div>
         </div>
@@ -75,6 +79,40 @@
                 dataType: 'html',
                 success: function (data) {
                     $('#details').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function generate(id) {
+            $.ajax({
+                type: 'get',
+                url: "{{url('/get/generate/invoice')}}"+'/'+id,
+                dataType: 'html',
+                success: function (data) {
+                    $('#generate').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function done(id) {
+            var r = $('#rate').val();
+            var d = $('#deposit').val();
+            var v = $('#vat').val();
+            var due = $('#due').val();
+            if(!due){
+                due =0;
+            }
+            alert(due);
+            $.ajax({
+                type: 'get',
+                url: "{{url('/done/generate/invoice')}}"+'/'+id+'/'+r+'/'+d+'/'+v+'/'+due,
+                dataType: 'html',
+                success: function (data) {
+                    $('#invoice').html(data);
                 },
                 error: function (error) {
                     console.log(error);
