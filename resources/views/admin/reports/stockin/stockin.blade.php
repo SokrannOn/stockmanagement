@@ -70,6 +70,17 @@
            });
 
         });
+
+        function print() {
+            $('#printReport').printThis();
+        }
+        function excel() {
+            var htmltable= document.getElementById('printReport');
+            var html = htmltable.outerHTML;
+            var sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+            return (sa);
+        }
+
     </script>
 @endsection
 

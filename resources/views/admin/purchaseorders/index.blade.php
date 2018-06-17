@@ -19,7 +19,7 @@
                             <th class="center">Actions</th>
                         </tr>
                         </thead>
-                        <?php $no=1;?>
+                        <?php $no = 1;?>
                         <tbody>
                         @foreach($purchaseorder as $po)
                             <tr>
@@ -38,16 +38,20 @@
                                 </td>
                                 <td style="font-size: 11px; font-family: 'Khmer OS System'; text-align: center;">
                                     <?php
-                                    echo "$ " . number_format($po->totalAmount,2);
+                                    echo "$ " . number_format($po->totalAmount, 2);
                                     ?>
                                 </td>
-                                <td width="150px" style="font-size: 11px; font-family: 'Khmer OS System'; text-align: center;">
+                                <td width="150px"
+                                    style="font-size: 11px; font-family: 'Khmer OS System'; text-align: center;">
                                     <?php
-                                    echo "$ " . number_format($po->grandTotal,2);
+                                    echo "$ " . number_format($po->grandTotal, 2);
                                     ?>
                                 </td>
                                 <td width="150px" style="text-align: center;">
-                                    <a style="padding: 2px" class="btn btn-info btn-xs cursor-pointer " onclick="details({{$po->id}})"data-toggle="modal" data-target="#details" > Details</a>
+                                    <a style="padding: 2px" class="btn btn-info btn-xs cursor-pointer "
+                                       onclick="details({{$po->id}})" data-toggle="modal"
+                                       data-target="#details">Details
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -67,7 +71,7 @@
         function details(id) {
             $.ajax({
                 type: 'get',
-                url: "{{url('/get/po/details')}}"+'/'+id,
+                url: "{{url('/get/po/details')}}" + '/' + id,
                 dataType: 'html',
                 success: function (data) {
                     $('#details').html(data);

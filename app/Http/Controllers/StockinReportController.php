@@ -12,9 +12,9 @@ class StockinReportController extends Controller
 {
     public function index()
     {
-        if(PermissionUser::create()) {
+        if (PermissionUser::create()) {
             return view('admin.reports.stockin.stockin');
-        }else{
+        } else {
             return view('admin.error.permission');
         }
 
@@ -29,11 +29,11 @@ class StockinReportController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->ajax()){
+        if ($request->ajax()) {
             $end = $request->end;
             $start = $request->start;
-            $im = Historyimport::whereBetween('date',[$start,$end])->get();
-            return view('admin.reports.stockin.content',compact('im','start','end'));
+            $im = Historyimport::whereBetween('date', [$start, $end])->get();
+            return view('admin.reports.stockin.content', compact('im', 'start', 'end'));
 
         }
     }
